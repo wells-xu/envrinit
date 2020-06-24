@@ -1,2 +1,2 @@
 # envrinit
-The initial base that sync various  environment with uniform config
+The initial base that sync various environment with uniform config.
