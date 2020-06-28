@@ -15,6 +15,9 @@ init() {
 	cp -rv envrinit/etc/* $DIR_WORK_LOCAL/etc/
 	cp -v envrinit/bootstrap.sh $DIR_WORK_LOCAL/bin/
 
+    #loading z.sh
+    sed -i "\:$DIR_WORK_LOCAL/etc/z.sh:d" ~/.bashrc
+    echo "source $DIR_WORK_LOCAL/etc/z.sh" >> ~/.bashrc
     # source init.sh
     sed -i "\:$DIR_WORK_LOCAL/etc/init.sh:d" ~/.bashrc
     echo ". $DIR_WORK_LOCAL/etc/init.sh" >> ~/.bashrc
