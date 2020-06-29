@@ -11,16 +11,17 @@ init() {
 	else
 		git clone https://github.com/wells-xu/envrinit.git
 	fi
-	cp -rv envrinit/bin/* $DIR_WORK_LOCAL/bin/
-	cp -rv envrinit/etc/* $DIR_WORK_LOCAL/etc/
-	cp -v envrinit/bootstrap.sh $DIR_WORK_LOCAL/bin/
+	cp -rv $DIR_WORK_LOCAL/envrinit/bin/* $DIR_WORK_LOCAL/bin/
+	cp -rv $DIR_WORK_LOCAL/envrinit/etc/* $DIR_WORK_LOCAL/etc/
+	cp -v  $DIR_WORK_LOCAL/envrinit/bootstrap.sh $DIR_WORK_LOCAL/bin/
 
-    #loading z.sh
-    sed -i "\:$DIR_WORK_LOCAL/etc/z.sh:d" ~/.bashrc
-    echo "source $DIR_WORK_LOCAL/etc/z.sh" >> ~/.bashrc
+    touch ~/.bashrc
     # source init.sh
-    sed -i "\:$DIR_WORK_LOCAL/etc/init.sh:d" ~/.bashrc
+    sed -i.bak "/\/.local\/etc\/init.sh/d" ~/.bashrc
     echo ". $DIR_WORK_LOCAL/etc/init.sh" >> ~/.bashrc
+    #loading z.sh
+    sed -i.bak "/\/.local\/etc\/z.sh/d" ~/.bashrc
+    echo ". $DIR_WORK_LOCAL/etc/z.sh" >> ~/.bashrc
     . ~/.bashrc
 
     # for neovim
@@ -31,8 +32,8 @@ init() {
 
     # source vimrc.vim
     touch ~/.vimrc
-    sed -i "\:$DIR_WORK_LOCAL/etc/vimrc.vim:d" ~/.vimrc
-    echo "source $DIR_WORK_LOCAL/etc/vimrc.vim" >> ~/.vimrc
+    sed -i "/\/.local\/etc\/vimrc.vim/d" ~/.vimrc
+    echo ". $DIR_WORK_LOCAL/etc/vimrc.vim" >> ~/.vimrc
 
     # update git config
     git config --global color.status auto
@@ -41,7 +42,7 @@ init() {
     git config --global color.interactive auto
     git config --global core.quotepath false
 
-    # install vim plug
+    #install vim plug
     if command -v nvim 2>/dev/null; then
         nvim +PlugInstall +qall
     else
@@ -53,6 +54,7 @@ init() {
 }
 
 main() {
+	init
 }
 
 #main loop
