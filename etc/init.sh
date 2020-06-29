@@ -63,4 +63,4 @@ elif [ -n "$ZSH_VERSION" ]; then
             . "$HOME/.local/etc/login.sh"
         fi
     fi
-fi果
+fi

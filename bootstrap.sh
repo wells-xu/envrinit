@@ -3,7 +3,7 @@ set -e
 DIR_WORK_LOCAL=~/.local
 
 init() {
-	mkdir -p $DIR_WORK_LOCAL/bin
+    mkdir -p $DIR_WORK_LOCAL/bin
 	mkdir -p $DIR_WORK_LOCAL/etc
 	cd $DIR_WORK_LOCAL
 	if [ -d $DIR_WORK_LOCAL/envrinit ]; then
@@ -32,8 +32,10 @@ init() {
 
     # source vimrc.vim
     touch ~/.vimrc
-    sed -i "/\/.local\/etc\/vimrc.vim/d" ~/.vimrc
-    echo ". $DIR_WORK_LOCAL/etc/vimrc.vim" >> ~/.vimrc
+    if [ ! -s "$1" ]; then
+	sed -i.bak "/\/.local\/etc\/vimrc.vim/d" ~/.vimrc
+    fi
+    echo "source $DIR_WORK_LOCAL/etc/vimrc.vim" >> ~/.vimrc
 
     # update git config
     git config --global color.status auto
