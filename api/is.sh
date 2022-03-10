@@ -134,3 +134,20 @@ is_not_number() {
     fi
 }
 
+is_command_valid() {
+    if is_null $1; then
+        return 1
+    fi
+    command -v $1
+} 
+is_command_not_valid() {
+    if is_null $1; then
+        return 1
+    fi
+    if command -v $1; then
+        return 1
+    fi
+
+    return 0
+} 
+

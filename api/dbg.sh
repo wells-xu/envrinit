@@ -3,7 +3,8 @@
 #@modify 201809051516
 #first version
 
-export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)
+export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
+[ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
 echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT dbg.sh----------------------"
 
 #debug info defines
@@ -28,6 +29,8 @@ warn++() {
     g_API_DBG_WARN=$(($g_API_DBG_WARN + 1))
 }
 _trap_stat_() {
+    echo -e "\n\n"
+    echo "##############################################"
     log self white "-----------TRAP STAT---------------"
     if [ $g_API_DBG_FAIL -gt 0 ]; then
         log self red "global fail  number: $g_API_DBG_FAIL"

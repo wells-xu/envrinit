@@ -8,7 +8,9 @@
 #notes          :       
 #bash_version   :3.00.22(2)-release
 #============================================================================
-export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)
+echo "$0"
+export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
+[ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
 echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT use.sh----------------------"
 
 source $DIR_API_DEFAULT/cus.sh

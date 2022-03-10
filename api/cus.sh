@@ -2,7 +2,8 @@
 #@author wells
 #@modify 201809051513
 
-export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)
+export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
+[ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
 echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT cus.sh----------------------"
 
 #usual directory defines
