@@ -1,6 +1,10 @@
 #!/bin/bash
 
-. ~/.local/api/use.sh
+export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
+[ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
+echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT rsync_daemon.sh----------------------"
+
+source $DIR_API_DEFAULT/use.sh
 
 #define dirs
 DIR_ETC_ROOT=/etc
@@ -117,11 +121,12 @@ remove() {
     do_or_die sudo rm -rfv $DIR_RSYNC_CONF
 }
 
-main () { 
-    if is_equal $(command -v rsync | wc -l) "0"; then
-        log_fatal "rsync not exist, you must install rsync first!"
-    fi
+usage() {
+    echo "bash rsync_daemon.sh install | remove"
+    echo "bash rsync_daemon.sh start | stop | restart"
+}
 
+main () { 
     if is_command_not_valid rsync; then
         log_fatal "rsync not exist, you must install rsync first!"
     fi
@@ -134,7 +139,9 @@ main () {
             do_or_die "rsync_$1"
         ;;
         *)
-            log_fatal "error with command [$1] not found"
+            usage
+            exit 1
+            #log_fatal "error with command [$1] not found"
         ;;
     esac
 }
