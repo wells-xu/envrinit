@@ -2,7 +2,9 @@
 export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
 [ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
 echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT log.sh----------------------"
+
 source $DIR_API_DEFAULT/is.sh
+source $DIR_API_DEFAULT/str.sh
 source $DIR_API_DEFAULT/dbg.sh
 source $DIR_API_DEFAULT/def.sh
 source $DIR_API_DEFAULT/fmt.sh
@@ -15,15 +17,11 @@ log() {
     case "$cmd_" in
     OK|ok)
         pre_="OK    "
-        col_="green null bold"
+        col_="green null bold null"
     ;;
     FAIL|fail)
         pre_="FAIL    "
-        col_="red null bold"
-    ;;
-    FAIL|fail)
-        pre_="FAIL  "
-        col_="red null bold"
+        col_="red null bold null"
     ;;
     INFO|info)
         pre_="INFO  "
@@ -57,8 +55,13 @@ log() {
         pre_="INFO  "
     ;;
     esac
-	echo "---$@---"
-    col_fmt "$pre_ $(_fmt_date) [${FUNCNAME[2]}->${FUNCNAME[1]}->${FUNCNAME[0]}] $@" $col_
+	#echo "[log0] ---$@---"
+    #pre_=$(printf "$pre_ $(_fmt_date) [${FUNCNAME[2]}->${FUNCNAME[1]}->${FUNCNAME[0]}] $@")
+    #echo "$pre_"
+    pre_=$(echo "$pre_ $(_fmt_date) [${FUNCNAME[2]}->${FUNCNAME[1]}->${FUNCNAME[0]}] $@")
+    #echo "[log1] "$(str_pure_mutiple_line_to_one_line "$pre_ $(_fmt_date) [${FUNCNAME[2]}->${FUNCNAME[1]}->${FUNCNAME[0]}] $@")
+    #col_fmt "$pre_ $(_fmt_date) [${FUNCNAME[2]}->${FUNCNAME[1]}->${FUNCNAME[0]}]"$@"" $col_
+    col_fmt "$pre_" $col_
 }
 
 log_trace() {
@@ -103,6 +106,7 @@ log_fatal() {
 
 log_ok() {
     ok++
+    #echo "log ok: $@"
     log ok "$@" >&2
 }
 log_fail() {

@@ -37,3 +37,12 @@ else
 fi
 TASK_LOCK="occupat.task.lock.$SELF_PRIVATE_HASH"
 TASK_LOCK_V2="occupatex.task.lock.$SELF_PRIVATE_HASH_V2"
+
+is_interactive_mode() {
+    # [[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'
+    [[ $- == *i* ]] && return 0 || return 1
+}
+
+time_string() {
+    echo -e `date +"%Y-%m-%d %H:%M:%S"`
+}

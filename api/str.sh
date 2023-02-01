@@ -1,7 +1,8 @@
 #!/bin/bash
-export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)
-echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT str.sh----------------------"
-source $DIR_API_DEFAULT/is.sh
+echo "$0"
+export DIR_API_DEFAULT=$(cd $(dirname $0); pwd)/api
+[ ! -d $DIR_API_DEFAULT ] && DIR_API_DEFAULT=~/.local/api
+echo "----------------------$0 DIR_API_DEFAULT = $DIR_API_DEFAULT use.sh----------------------"
 
 #             a
 # "a b c" ->  b
@@ -37,4 +38,13 @@ str_pure_mutiple_line_to_one_line() {
         IFS=' '
     fi
     echo "$_list"
+}
+# Remove all newlines.
+str_remove_all_newline() {
+    printf ${@//$'\n'/}
+}
+
+# Remove a trailing newline.
+str_remove_trailing_newline() {
+    printf dt=${dt%$'\n'}
 }

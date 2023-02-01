@@ -34,7 +34,12 @@ _fmt_date() {
 
 col_fmt() {
     local log_="$1"
-	echo "[fmt]---$log_---"
+	#echo "[fmt0]---$@---"
+	#echo "[fmt1]---$1---"
+	#echo "[fmt2]---$2---"
+	#echo "[fmt3]---$3---"
+	#echo "[fmt4]---$4---"
+	#echo "[fmt5]---$5---"
     local color_=$2
     local bgcolor_=$3
     local bold_=$4
@@ -43,7 +48,7 @@ col_fmt() {
 
     local setcolor=
     case "$color_" in
-        black)
+    black)
 	    setcolor=$(tput setaf 0;) ;;
 	red)
 	    setcolor=$(tput setaf 1;) ;;
@@ -64,7 +69,7 @@ col_fmt() {
     esac
 
     case "$bgcolor_" in
-        black)
+    black)
             setbgcolor=$(tput setab 0;) ;;
 	red)
 	    setbgcolor=$(tput setab 1;) ;;
