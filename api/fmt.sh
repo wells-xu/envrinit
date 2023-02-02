@@ -70,7 +70,7 @@ col_fmt() {
 
     case "$bgcolor_" in
     black)
-            setbgcolor=$(tput setab 0;) ;;
+        setbgcolor=$(tput setab 0;) ;;
 	red)
 	    setbgcolor=$(tput setab 1;) ;;
 	green)
