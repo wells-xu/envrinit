@@ -35,29 +35,34 @@ main () {
             # to check 5% of the array older than 20 days use: 
             #snapraid -p 5 -o 20 scrub
             log_msg "snapraid scrub starting..."
-            if do_is snapraid -p 6 -o 30 scrub &> $DIR_BIN/log/main_log_srub; then
+            if do_is snapraid -p 6 -o 30 scrub &> $DIR_BIN/log/main_log_scrub; then
                 log_ok "scrub done"
-                if do_or_retry 3 mailx -s "[$(time_string)] snapraid scrub done" xugang_2001@163.com < $DIR_BIN/log/main_log_srub; then
-                    log_ok "mail done"
+                #Only report sucess message on Saturday avoid any valueness messages.
+                #But can't be removed because we would known if reproting system worked as expected.
+                if is_equal $(date +"%w") 6; then
+                    do_or_die snapraid status >> $DIR_BIN/log/main_log_scrub
+                    if do_or_retry 3 mailx -s "[$(time_string)] snapraid scrub done" xugang_2001@163.com < $DIR_BIN/log/main_log_scrub; then
+                        log_ok "mail done"
+                    fi
                 fi
             else
-                log_ok "scrub failed"
-                if do_or_retry 3 mailx -s "[$(time_string)] snapraid scrub error" xugang_2001@163.com < $DIR_BIN/log/main_log_srub; then
+                log_error "scrub failed"
+                if do_or_retry 3 mailx -s "[$(time_string)] snapraid scrub error" xugang_2001@163.com < $DIR_BIN/log/main_log_scrub; then
                     log_ok "mail done"
                 fi
             fi
-            do_or_die cat $DIR_BIN/log/main_log_srub
+            do_or_die cat $DIR_BIN/log/main_log_scrub
         ;;
         sync)
             log_msg "snapraid sync starting..."
             if do_is snapraid sync &> $DIR_BIN/log/main_log_sync; then
                 log_ok "sync done"
-                if do_or_retry 3 mailx -s "[$(time_string)] snapraid sync done" xugang_2001@163.com < $DIR_BIN/log.email; then
+                if do_or_retry 3 mailx -s "[$(time_string)] snapraid sync done" xugang_2001@163.com < $DIR_BIN/log/main_log_sync; then
                     log_ok "mail done"
                 fi
             else
-                log_ok "sync failed"
-                if do_or_retry 3 mailx -s "[$(time_string)] snapraid sync error" xugang_2001@163.com < $DIR_BIN/log.email; then
+                log_error "sync failed"
+                if do_or_retry 3 mailx -s "[$(time_string)] snapraid sync error" xugang_2001@163.com < $DIR_BIN/log/main_log_sync; then
                     log_ok "mail done"
                 fi
             fi

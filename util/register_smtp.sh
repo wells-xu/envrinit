@@ -33,9 +33,9 @@ register_email() {
 	mkdir -p $dir_cert
 	rm -fv $dir_cert/*
 	echo -n | openssl s_client -connect smtp.$1.com:465 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $dir_cert/$1.crt
-	#添加证书到数据库（以qq.crt为输入证书）
-	certutil -A -n "GeoTrust SSL CA" -t "C,," -d $dir_cert -i $dir_cert/qq.crt
-	certutil -A -n "GeoTrust Global CA" -t "C,," -d $dir_cert -i $dir_cert/qq.crt
+	#添加证书到数据库（以*.crt为输入证书）
+	certutil -A -n "GeoTrust SSL CA" -t "C,," -d $dir_cert -i $dir_cert/$1.crt
+	certutil -A -n "GeoTrust Global CA" -t "C,," -d $dir_cert -i $dir_cert/$1.crt
 	#列出指定目录下的证书,经过试验，这一步可以不需要
 	certutil -L -d $dir_cert
 	#指明受信任证书、防报错
@@ -46,6 +46,10 @@ main() {
 	case $1 in
 		163 | qq) 
 			register_email $1
+		;;
+		clear)
+			rm -fvr /root/.certs
+			rm -fv /etc/mail.rc
 		;;
 		*)
 			echo "command invalid: $1"
