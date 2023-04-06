@@ -65,3 +65,16 @@ is_interactive_mode() {
 time_string() {
     echo -e `date +"%Y-%m-%d %H:%M:%S"`
 }
+
+alias pop='set -- $(eval printf '\''%s\\n'\'' $(seq $(expr $# - 1) | sed '\''s/^/\$/;H;$!d;x;s/\n/ /g'\'') )'
+shopt -s expand_aliases
+
+rshift() {
+    pop
+    echo "$@"
+}
+
+lshift() {
+    shift
+    echo "$@"
+}
